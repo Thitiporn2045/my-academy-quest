@@ -1,12 +1,14 @@
 <% content_for :title, "แก้ไขงาน" %>
 
-<div class="max-w-2xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-2xl">
-  <h1 class="text-2xl font-bold text-indigo-700 mb-6">📝 แก้ไขงาน</h1>
+<div class="max-w-2xl mx-auto px-4 py-8">
+  <div class="bg-base-100 shadow-xl rounded-2xl p-6">
+    <h1 class="text-3xl font-bold text-center text-primary mb-6">✏️ แก้ไขงาน</h1>
 
-  <%= render "form", task: @task %>
+    <%= render "form", task: @task %>
 
-  <div class="mt-6 flex flex-col sm:flex-row justify-between gap-4">
-    <%= link_to "ดูงานนี้", @task, class: "btn btn-info btn-sm" %>
-    <%= link_to "← กลับหน้ารายการงาน", tasks_path, class: "btn btn-outline btn-sm" %>
+    <div class="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <%= link_to "🔍 ดูงานนี้", @task, class: "btn btn-info" %>
+      <%= link_to "← กลับหน้ารายการงาน", tasks_path, class: "btn btn-outline" %>
+    </div>
   </div>
 </div>

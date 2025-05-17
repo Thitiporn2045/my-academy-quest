@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :set_task, only: %i[ show edit update destroy ]
-
+  before_action :set_categories, only: [:new, :edit, :create, :update]
   # GET /tasks or /tasks.json
   def index
     @categories = Task.distinct.pluck(:category)
@@ -8,10 +8,14 @@ class TasksController < ApplicationController
   end
 
   def by_category
-    @category = params[:category]
-    @tasks    = (@category ? Task.where(category: @category)
-                : Task.where(category: [nil, '']))
-                .order(:deadline)
+    @categories = Task.distinct.pluck(:category)
+    @category   = params[:category]
+
+    @tasks = if @category.present?
+              Task.where(category: @category).order(:deadline)
+            else
+              Task.where(category: [nil, '']).order(:deadline)
+            end
   end
 
   # GET /tasks/1 or /tasks/1.json
@@ -22,10 +26,10 @@ class TasksController < ApplicationController
   def new
     @task = Task.new
   end
-
-  # GET /tasks/1/edit
+  
   def edit
-  end
+    @task = Task.find(params[:id])
+  end  
 
   # POST /tasks or /tasks.json
   def create
@@ -79,6 +83,10 @@ class TasksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def task_params
-      params.expect(task: [ :title, :description, :done, :category, :assigned_at, :deadline ])
+      params.require(:task).permit(:title, :description, :done, :category, :assigned_at, :deadline)
+    end
+
+    def set_categories
+      @categories = Task.distinct.pluck(:category).compact_blank
     end
 end

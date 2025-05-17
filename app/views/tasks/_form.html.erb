@@ -1,8 +1,8 @@
-<%= form_with(model: task, local: true, class: "space-y-4") do |form| %>
+<%= form_with(model: task, local: true, class: "space-y-6") do |form| %>
   <% if task.errors.any? %>
     <div class="alert alert-error shadow-lg">
       <div>
-        <span><%= pluralize(task.errors.count, "error") %> บางอย่างผิดพลาด:</span>
+        <span><%= pluralize(task.errors.count, "ข้อผิดพลาด") %> ที่ต้องแก้ไข:</span>
         <ul class="list-disc list-inside">
           <% task.errors.each do |error| %>
             <li><%= error.full_message %></li>
@@ -12,38 +12,59 @@
     </div>
   <% end %>
 
+  <!-- หัวข้องาน -->
   <div>
-    <%= form.label :title, "หัวข้องาน", class: "label" %>
+    <%= form.label :title, "หัวข้องาน", class: "label font-semibold" %>
     <%= form.text_field :title, class: "input input-bordered w-full" %>
   </div>
 
+  <!-- รายละเอียดงาน -->
   <div>
-    <%= form.label :description, "รายละเอียด", class: "label" %>
+    <%= form.label :description, "รายละเอียด", class: "label font-semibold" %>
     <%= form.text_area :description, rows: 3, class: "textarea textarea-bordered w-full" %>
   </div>
 
+  <!-- หมวดหมู่ -->
   <div>
-    <%= form.label :category, "หมวดหมู่งาน", style: "display: block" %>
-    <%= form.text_field :category, class: "input input-bordered w-full" %>
+    <label class="label font-semibold">หมวดหมู่งาน</label>
+
+    <!-- dropdown ที่เลือกได้ -->
+    <select id="category-select"
+            class="select select-bordered w-full mb-2"
+            onchange="document.getElementById('category-input').value = this.value">
+      <option value="">เลือกจากรายการที่มี</option>
+      <% @categories.each do |category| %>
+        <option value="<%= category %>"><%= category %></option>
+      <% end %>
+    </select>
+
+    <!-- input ที่ให้กรอกหมวดหมู่เอง -->
+    <%= text_field_tag "task[category]", task.category,
+          id: "category-input",
+          placeholder: "หรือกรอกหมวดหมู่ใหม่",
+          class: "input input-bordered w-full" %>
   </div>
 
+  <!-- วันที่ -->
   <div class="flex flex-col md:flex-row gap-4">
     <div class="flex-1">
-      <%= form.label :assigned_at, "วันที่ได้รับงาน", class: "label" %>
+      <%= form.label :assigned_at, "วันที่ได้รับงาน", class: "label font-semibold" %>
       <%= form.datetime_local_field :assigned_at, class: "input input-bordered w-full" %>
     </div>
     <div class="flex-1">
-      <%= form.label :deadline, "เดตไลน์ (ถ้ามี)", class: "label" %>
+      <%= form.label :deadline, "วันกำหนดส่ง (ถ้ามี)", class: "label font-semibold" %>
       <%= form.datetime_local_field :deadline, class: "input input-bordered w-full" %>
     </div>
   </div>
 
+  <!-- เสร็จแล้ว -->
   <div class="flex items-center gap-2">
     <%= form.check_box :done, class: "checkbox checkbox-primary" %>
-    <%= form.label :done, "ทำเสร็จแล้ว", class: "label" %>
+    <%= form.label :done, "ทำเสร็จแล้ว", class: "font-medium" %>
   </div>
 
-  <div class="mt-6 text-center">
-    <%= form.submit "บันทึกงาน", class: "btn btn-primary btn-wide" %>
+  <!-- ปุ่ม -->
+  <div class="text-center">
+    <%= form.submit (task.persisted? ? "อัปเดตงาน" : "บันทึกงาน"), class: "btn btn-primary btn-wide" %>
   </div>
 <% end %>

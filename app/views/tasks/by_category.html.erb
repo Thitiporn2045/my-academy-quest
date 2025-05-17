@@ -1,33 +1,81 @@
-<h1 class="text-2xl font-bold mb-4">Tasks in: <%= @category %></h1>
+<div class="p-4">
 
-<%= link_to 'New Task', new_task_path, class: "btn btn-primary mb-4" %>
-<%= link_to '← Back to Categories', tasks_path, class: "btn btn-sm btn-outline mb-4" %>
+  <!-- Header -->
+  <h1 class="text-2xl font-bold mb-4">
+    Tasks in: <%= @category.presence || "ไม่ระบุหมวดหมู่" %>
+  </h1>
 
-<table class="table table-zebra w-full">
-<thead>
-    <tr>
-    <th>✓</th>
-    <th>Title</th>
-    <th>Deadline</th>
-    <th>Actions</th>
-    </tr>
-</thead>
-<tbody>
-    <% @tasks.each do |task| %>
-    <tr class="<%= 'line-through text-gray-400' if task.done %>">
-        <td>
-        <%= form_with model: task, url: toggle_done_task_path(task), method: :patch, local: true do |f| %>
-            <%= f.check_box :done, { checked: task.done, onchange: 'this.form.submit()' }, true, false %>
-        <% end %>
-        </td>
-        <td><%= task.title %></td>
-        <td><%= task.deadline&.strftime("%d/%m/%Y") %></td>
-        <td>
-        <%= link_to 'Show', task, class: "btn btn-sm btn-info" %>
-        <%= link_to 'Edit', edit_task_path(task), class: "btn btn-sm btn-warning" %>
-        <%= link_to 'Delete', task, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-error" %>
-        </td>
-    </tr>
+  <!-- Navigation -->
+  <div class="flex flex-wrap gap-2 mb-4 overflow-x-auto no-scrollbar">
+    <% @categories.each do |cat| %>
+      <%= link_to(
+            cat.presence || "ไม่ระบุหมวดหมู่",
+            by_category_tasks_path(category: cat),
+            class: "btn btn-sm #{cat == @category ? 'btn-secondary' : 'btn-outline'}"
+          ) %>
     <% end %>
-</tbody>
-</table>
+  </div>
+
+  <!-- Actions -->
+  <div class="flex justify-between items-center mb-4">
+    <%= link_to '← Back to Categories', tasks_path, class: "btn btn-sm btn-ghost" %>
+    <%= link_to 'New Task', new_task_path, class: "btn btn-primary btn-sm" %>
+  </div>
+
+  <!-- Task Table for Desktop -->
+  <div class="hidden md:block">
+    <table class="table table-zebra w-full">
+      <thead>
+        <tr>
+          <th>✓</th>
+          <th>Title</th>
+          <th>Deadline</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @tasks.each do |task| %>
+          <tr class="<%= 'line-through text-gray-400' if task.done %>">
+            <td>
+              <%= form_with model: task, url: toggle_done_task_path(task), method: :patch, local: true do |f| %>
+                <%= f.check_box :done, { checked: task.done, onchange: 'this.form.submit()' }, true, false %>
+              <% end %>
+            </td>
+            <td><%= task.title %></td>
+            <td><%= task.deadline&.strftime("%d/%m/%Y") %></td>
+            <td class="flex flex-wrap gap-1">
+              <%= link_to 'Show', task, class: "btn btn-sm btn-info" %>
+              <%= link_to 'Edit', edit_task_path(task), class: "btn btn-sm btn-warning" %>
+              <%= link_to 'Delete', task, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-error" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Task List for Mobile -->
+  <div class="block md:hidden space-y-4">
+    <% @tasks.each do |task| %>
+      <div class="bg-base-200 p-4 rounded-xl shadow-md <%= 'opacity-50' if task.done %>">
+        <div class="flex justify-between items-center">
+          <h3 class="font-semibold text-lg">
+            <%= link_to task.title, task_path(task), class: "hover:underline" %>
+          </h3>
+          <%= form_with model: task, url: toggle_done_task_path(task), method: :patch, local: true do |f| %>
+            <%= f.check_box :done, { checked: task.done, onchange: 'this.form.submit()' }, true, false %>
+          <% end %>
+        </div>
+        <% if task.deadline %>
+          <p class="text-sm text-gray-500 mt-1">📅 <%= task.deadline.strftime("%d/%m/%Y") %></p>
+        <% end %>
+        <div class="flex gap-2 mt-2 flex-wrap">
+          <%= link_to 'Show', task, class: "btn btn-xs btn-info" %>
+          <%= link_to 'Edit', edit_task_path(task), class: "btn btn-xs btn-warning" %>
+          <%= link_to 'Delete', task, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-xs btn-error" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+</div>

@@ -1,32 +1,29 @@
-<div id="<%= dom_id task %>" class="space-y-4 text-gray-700">
-  <div>
-    <h2 class="text-xl font-bold text-indigo-600">📌 <%= task.title %></h2>
-  </div>
-
-  <div>
-    <strong class="block">รายละเอียดงาน:</strong>
-    <p class="pl-2 text-gray-600"><%= task.description.presence || "—" %></p>
-  </div>
-
-  <div class="flex flex-wrap gap-4">
-    <div class="badge badge-<%= task.done ? "success" : "neutral" %>">
+<div id="<%= dom_id task %>" class="bg-white shadow-lg rounded-2xl p-6 space-y-6 text-gray-700">
+  <div class="flex items-center justify-between flex-wrap gap-2">
+    <h2 class="text-2xl font-bold text-indigo-600">📌 <%= task.title %></h2>
+    <span class="badge badge-<%= task.done ? "success" : "neutral" %> text-sm">
       <%= task.done ? "✅ ทำเสร็จแล้ว" : "🕒 ยังไม่เสร็จ" %>
-    </div>
+    </span>
+  </div>
+
+  <div>
+    <strong class="block mb-1 text-gray-800">รายละเอียดงาน:</strong>
+    <p class="pl-2 text-gray-600"><%= task.description.presence || "—" %></p>
   </div>
 
   <div class="grid md:grid-cols-2 gap-4">
     <div>
-      <strong>หมวดหมู่งาน:</strong>
+      <strong class="text-gray-800">📁 หมวดหมู่งาน:</strong>
       <p><%= task.category.presence || "—" %></p>
     </div>
 
     <div>
-      <strong>วันที่ได้รับมอบหมาย:</strong>
+      <strong class="text-gray-800">📅 วันที่ได้รับมอบหมาย:</strong>
       <p><%= task.assigned_at&.strftime("%d %B %Y %H:%M") || "—" %></p>
     </div>
 
     <div>
-      <strong>เดตไลน์:</strong>
+      <strong class="text-gray-800">⏰ เดตไลน์:</strong>
       <p><%= task.deadline&.strftime("%d %B %Y %H:%M") || "—" %></p>
     </div>
   </div>
