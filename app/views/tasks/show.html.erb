@@ -1,0 +1,17 @@
+<% content_for :title, "รายละเอียดงาน" %>
+
+<div class="max-w-2xl mx-auto mt-10 p-6 bg-white shadow-xl rounded-2xl">
+  <% if notice.present? %>
+    <div class="alert alert-success mb-4">
+      <span><%= notice %></span>
+    </div>
+  <% end %>
+
+  <%= render @task %>
+
+  <div class="mt-6 flex flex-col sm:flex-row justify-between gap-4">
+    <%= link_to "แก้ไขงานนี้", edit_task_path(@task), class: "btn btn-warning btn-sm" %>
+    <%= link_to "← กลับไปหน้ารายการงาน", tasks_path, class: "btn btn-outline btn-sm" %>
+    <%= button_to "ลบงานนี้", @task, method: :delete, data: { confirm: "แน่ใจหรือไม่ว่าจะลบงานนี้?" }, class: "btn btn-error btn-sm" %>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<div id="<%= dom_id task %>" class="space-y-4 text-gray-700">
+  <div>
+    <h2 class="text-xl font-bold text-indigo-600">📌 <%= task.title %></h2>
+  </div>
+
+  <div>
+    <strong class="block">รายละเอียดงาน:</strong>
+    <p class="pl-2 text-gray-600"><%= task.description.presence || "—" %></p>
+  </div>
+
+  <div class="flex flex-wrap gap-4">
+    <div class="badge badge-<%= task.done ? "success" : "neutral" %>">
+      <%= task.done ? "✅ ทำเสร็จแล้ว" : "🕒 ยังไม่เสร็จ" %>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-4">
+    <div>
+      <strong>หมวดหมู่งาน:</strong>
+      <p><%= task.category.presence || "—" %></p>
+    </div>
+
+    <div>
+      <strong>วันที่ได้รับมอบหมาย:</strong>
+      <p><%= task.assigned_at&.strftime("%d %B %Y %H:%M") || "—" %></p>
+    </div>
+
+    <div>
+      <strong>เดตไลน์:</strong>
+      <p><%= task.deadline&.strftime("%d %B %Y %H:%M") || "—" %></p>
+    </div>
+  </div>
+</div>

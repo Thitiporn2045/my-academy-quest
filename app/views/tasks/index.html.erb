@@ -1,0 +1,32 @@
+<h1 class="text-3xl font-bold mb-6">My Task Categories</h1>
+
+<%= link_to 'New Task', new_task_path, class: "btn btn-primary mb-4" %>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+  <% @categories.each do |category| %>
+    <%= link_to by_category_tasks_path(category: category), class: "p-4 rounded-lg bg-base-100 shadow hover:shadow-lg transition block text-center" do %>
+      <div class="text-5xl mb-2">📁</div>
+      <div class="text-xl font-semibold">
+        <%= category.presence || "ไม่ระบุหมวดหมู่" %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<h2 class="text-xl font-bold mt-6">Tasks by Category</h2>
+
+<% @tasks.group_by(&:category).each do |category, tasks| %>
+  <div class="bg-base-200 p-4 rounded-xl mt-4">
+    <h3 class="text-lg font-semibold mb-2"><%= category.presence || "Uncategorized" %></h3>
+    <ul class="list-disc pl-6">
+      <% tasks.each do |task| %>
+        <li class="<%= 'line-through text-gray-400' if task.done %>">
+          <%= link_to task.title, task_path(task), class: "hover:underline" %>
+          <% if task.deadline %>
+            <span class="text-sm text-gray-500">– <%= task.deadline.strftime("%d/%m/%Y") %></span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
