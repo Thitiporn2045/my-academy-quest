@@ -8,12 +8,29 @@
 
 /* Optional for custom themes – Docs: https://daisyui.com/docs/themes/#how-to-add-a-new-custom-theme */
 @plugin "./daisyui-theme.js"{
-  /* custom theme here */
+  --color-primary: #162455;
 }
 
 
 @layer base {
   body {
-    @apply font-sans;
+    @apply font-sans !important;
+  }
+}
+
+@layer utilities {
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out both;
   }
 }

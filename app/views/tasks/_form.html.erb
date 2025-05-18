@@ -1,9 +1,9 @@
-<%= form_with(model: task, local: true, class: "space-y-6 p-6 rounded-xl max-w-2xl mx-auto") do |form| %>
+<%= form_with(model: task, local: true, class: "space-y-6 pt-6 px-4 rounded-2xl max-w-2xl mx-auto backdrop-blur-md ", style: "box-shadow: rgba(170, 180, 255, 0.2) 0px 4px 20px;") do |form| %>
   <% if task.errors.any? %>
-    <div class="alert alert-error shadow-lg">
+    <div class="alert alert-error shadow-md rounded-xl p-4 bg-red-100 text-red-800">
       <div>
-        <span><%= pluralize(task.errors.count, "ข้อผิดพลาด") %> ที่ต้องแก้ไข:</span>
-        <ul class="list-disc list-inside">
+        <p class="font-semibold mb-2"><%= pluralize(task.errors.count, "ข้อผิดพลาด") %> ที่ต้องแก้ไข:</p>
+        <ul class="list-disc list-inside text-sm">
           <% task.errors.each do |error| %>
             <li><%= error.full_message %></li>
           <% end %>
@@ -13,24 +13,24 @@
   <% end %>
 
   <!-- หัวข้องาน -->
-  <div>
-    <%= form.label :title, "หัวข้องาน", class: "label font-semibold" %>
-    <%= form.text_field :title, class: "input input-bordered w-full bg-[#F5F4FB] border-none" %>
+  <div class="flex flex-col gap-2">
+    <%= form.label :title, "หัวข้องาน", class: "label font-semibold text-blue-950" %>
+    <%= form.text_field :title, placeholder: "ตั้งชื่องาน", class: "input input-bordered w-full bg-[#F5F4FB] border-none" %>
   </div>
 
   <!-- รายละเอียดงาน -->
-  <div>
-    <%= form.label :description, "รายละเอียด", class: "label font-semibold" %>
-    <%= form.text_area :description, rows: 3, class: "textarea textarea-bordered w-full bg-[#F5F4FB] border-none" %>
+  <div class="flex flex-col gap-2">
+    <%= form.label :description, "รายละเอียด", class: "label font-semibold text-blue-950" %>
+    <%= form.text_area :description, placeholder: "รายละเอียด", rows: 3, class: "textarea textarea-bordered w-full bg-[#F5F4FB] border-none" %>
   </div>
 
   <!-- หมวดหมู่ -->
-  <div>
-    <label class="label font-semibold">หมวดหมู่งาน</label>
+  <div class="flex flex-col gap-2">
+    <label class="label font-semibold text-blue-950">หมวดหมู่งาน</label>
     <div class="flex flex-col md:flex-row gap-4">
       <!-- dropdown -->
       <select id="category-select"
-              class="select select-bordered w-full bg-[#F5F4FB] flex-1 border-none"
+              class="select select-bordered w-full bg-[#F5F4FB] border-none"
               onchange="document.getElementById('category-input').value = this.value">
         <option value="">เลือกจากรายการที่มี</option>
         <% @categories.each do |category| %>
@@ -42,30 +42,28 @@
       <%= text_field_tag "task[category]", task.category,
             id: "category-input",
             placeholder: "หรือกรอกหมวดหมู่ใหม่",
-            class: "input input-bordered w-full bg-[#F5F4FB] flex-1 border-none" %>
+            class: "input input-bordered w-full bg-[#F5F4FB] border-none" %>
     </div>
   </div>
 
   <!-- วันที่ -->
   <div class="flex flex-col md:flex-row gap-4">
-    <div class="flex-1">
-      <%= form.label :assigned_at, "วันที่ได้รับงาน", class: "label font-semibold" %>
+    <div class="flex flex-col gap-2 flex-1">
+      <%= form.label :assigned_at, "วันที่ได้รับงาน", class: "label font-semibold text-blue-950" %>
       <%= form.datetime_local_field :assigned_at, class: "input input-bordered w-full bg-[#F5F4FB] border-none" %>
     </div>
-    <div class="flex-1">
-      <%= form.label :deadline, "วันกำหนดส่ง (ถ้ามี)", class: "label font-semibold" %>
+    <div class="flex flex-col gap-2 flex-1">
+      <%= form.label :deadline, "วันกำหนดส่ง (ถ้ามี)", class: "label font-semibold text-blue-950" %>
       <%= form.datetime_local_field :deadline, class: "input input-bordered w-full bg-[#F5F4FB] border-none" %>
     </div>
   </div>
 
-  <!-- เสร็จแล้ว -->
-  <div class="flex items-center gap-2">
-    <%= form.check_box :done, class: "checkbox checkbox-primary" %>
-    <%= form.label :done, "ทำเสร็จแล้ว", class: "font-medium" %>
-  </div>
-
   <!-- ปุ่ม -->
-  <div class="text-center">
-    <%= form.submit (task.persisted? ? "อัปเดตงาน" : "บันทึกงาน"), class: "btn btn-primary btn-wide shadow-md" %>
+  <div class="text-center pt-4">
+    <%= form.submit (task.persisted? ? "อัปเดตงาน" : "บันทึกงาน"),
+          class: "btn bg-blue-950 w-full mb-6 text-white shadow-md hover:shadow-xl transition hover:scale-105" %>
+    <div class="text-center">
+      <%= link_to "← กลับหน้ารายการงาน", tasks_path, class: "text-[#CCCCE3] transition-all duration-300 transform hover:scale-[1.01]" %>
+    </div>
   </div>
 <% end %>

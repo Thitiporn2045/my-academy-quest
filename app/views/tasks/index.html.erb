@@ -1,15 +1,15 @@
 <div class="w-full min-h-screen px-4 py-8">
   <!-- Profile Card -->
-  <div class="flex flex-col items-center mb-12 p-10">
+  <div class="flex flex-col items-center mb-12 p-10 animate-fade-in-up">
     <div class="size-[10rem] mb-4 overflow-hidden rounded-full ring-2 ring-indigo-100">
       <%= image_tag "Me.jpg", alt: "profile image", class: "w-full h-full object-cover" %>
     </div>
-    <h2 class="text-3xl font-semibold text-blue-950 drop-shadow-sm">Thitporn Thiamjan</h2>
+    <h2 class="text-3xl font-sans text-blue-950 drop-shadow-sm">Thitporn Thiamjan</h2>
     <p class="text-xl text-gray-600 italic">Go to Brag</p>
   </div>
 
   <!-- Category Buttons -->
-  <div class="flex overflow-x-auto whitespace-nowrap gap-4 mb-8 md:mb-12 pb-2 max-w-xs sm:max-w-none w-full">
+  <div class="flex overflow-x-auto whitespace-nowrap gap-4 mb-8 md:mb-12 pb-2 max-w-xs sm:max-w-none w-full transition-all duration-300 ease-in-out transform hover:scale-105 animate-fade-in-up delay-[200ms]">
     <% @categories.each do |category| %>
       <%= link_to by_category_tasks_path(category: category),
                   class: "flex items-center gap-3 bg-white/80 shadow-md hover:shadow-2xl ring-1 ring-indigo-100 rounded-full px-3 py-2 transition hover:scale-105 backdrop-blur-md",
@@ -25,12 +25,12 @@
   <!-- Header: Tasks by Category + New Task -->
   <div class="flex justify-between items-center mb-6">
     <h2 class="text-3xl font-bold text-blue-950">Tasks</h2>
-    <%= link_to 'New Task', new_task_path, class: "btn bg-blue-950 text-white shadow-lg hover:shadow-xl transition" %>
+    <%= link_to 'New Task', new_task_path, class: "btn bg-blue-950 text-white shadow-lg hover:shadow-xl transition-transform transform hover:scale-105 duration-300 ease-out" %>
   </div>
 
   <!-- Grouped Tasks -->
   <% @tasks.group_by(&:category).each do |category, tasks| %>
-    <div class="grid grid-cols-[1rem_auto] gap-1 <%= category_color_class(category) %> rounded-2xl mb-10 transition hover:shadow-2xl" style="box-shadow: rgba(170, 180, 255, 0.2) 0px 4px 20px;" >
+    <div class="grid grid-cols-[1rem_auto] gap-1 <%= category_color_class(category) %> rounded-2xl mb-10 transition hover:shadow-2xl duration-300 ease-in-out transform hover:scale-[1.01] animate-fade-in-up" style="box-shadow: rgba(170, 180, 255, 0.2) 0px 4px 20px;" >
       <div class=""></div>
       <div class="bg-[linear-gradient(140deg,white_0%,white_70%,rgba(255,255,255,0.9)_100%)] p-6 rounded-r-2xl">
         <h3 class="text-xl font-bold mb-4 text-blue-950 tracking-wide">
@@ -41,7 +41,7 @@
             <%= link_to task_path(task), class: "block" do %>
 
             <li data-controller="task"
-                  class="flex justify-between items-center bg-[#F5F4FB] px-4 py-3 rounded-xl hover:bg-[#f4ecfb] transition <%= 'line-through text-gray-400' if task.done %>">
+                  class="flex justify-between items-center bg-[#F5F4FB] px-4 py-3 rounded-xl hover:bg-[#f4ecfb] transition-all duration-300 transform hover:scale-[1.01] <%= 'line-through text-gray-400' if task.done %>">
 
                 <!-- ✅ Toggle Done + Title -->
                 <div class="flex items-center gap-4">

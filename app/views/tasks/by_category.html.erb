@@ -59,7 +59,7 @@
     <% @tasks.each do |task| %>
       <div class="bg-base-200 p-4 rounded-xl shadow-md <%= 'opacity-50' if task.done %>">
         <div class="flex justify-between items-center">
-          <h3 class="font-semibold text-lg">
+          <h3 class="font-sans text-lg">
             <%= link_to task.title, task_path(task), class: "hover:underline" %>
           </h3>
           <%= form_with model: task, url: toggle_done_task_path(task), method: :patch, local: true do |f| %>

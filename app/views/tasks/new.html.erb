@@ -1,13 +1,9 @@
 <% content_for :title, "เพิ่มงานใหม่" %>
 
 <div class="max-w-2xl mx-auto pt-18 px-4 py-8 w-full h-screen">
-  <div class="bg-base-100 shadow-xl rounded-2xl p-6">
-    <h1 class="text-3xl font-bold text-center text-blue-950 mb-6">เพิ่มงานใหม่</h1>
+  <div class="bg-base-100 rounded-2xl p-6" style="box-shadow: rgba(170, 180, 255, 0.2) 0px 4px 20px;">
+    <h1 class="text-3xl font-bold text-center text-blue-950">เพิ่มงานใหม่</h1>
 
     <%= render "form", task: @task %>
-
-    <div class="mt-6 text-center">
-      <%= link_to "← กลับหน้ารายการงาน", tasks_path, class: "link link-secondary" %>
-    </div>
   </div>
 </div>
