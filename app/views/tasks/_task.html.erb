@@ -1,30 +1,75 @@
-<div id="<%= dom_id task %>" class="bg-white shadow-lg rounded-2xl p-6 space-y-6 text-gray-700">
-  <div class="flex items-center justify-between flex-wrap gap-2">
-    <h2 class="text-2xl font-bold text-indigo-600">📌 <%= task.title %></h2>
-    <span class="badge badge-<%= task.done ? "success" : "neutral" %> text-sm">
-      <%= task.done ? "✅ ทำเสร็จแล้ว" : "🕒 ยังไม่เสร็จ" %>
-    </span>
+<div id="<%= dom_id task %>" class="grid grid-rows-[5rem_auto] shadow-xl rounded-2xl ring-1 ring-indigo-100 backdrop-blur-md w-full <%= category_color_class(task.category.presence) %>">
+
+  <!-- หัวข้องาน + สถานะ -->
+  <div class="flex items-center justify-between p-6">
+    <h2 class="text-xl md:text-2xl font-bold text-blue-950 flex items-center gap-2">
+      <%= task.title %>
+    </h2>
+    <div class="flex -space-x-4">
+      <!-- ปุ่มแก้ไข -->
+    <%= link_to edit_task_path(@task), class: "tooltip tooltip-bottom" , data: { tip: "แก้ไขงานนี้" } do %>
+      <button class="btn bg-transparent border-none shadow-none">
+        <!-- ไอคอนดินสอ -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 ">
+          <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+          <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+        </svg>
+      </button>
+    <% end %>
+
+    <!-- ปุ่มลบ -->
+    <%= button_to @task, method: :delete, data: { confirm: "แน่ใจหรือไม่ว่าจะลบงานนี้?" }, class: "tooltip tooltip-bottom", data: { tip: "ลบงานนี้" } do %>
+      <button class="btn bg-transparent border-none shadow-none ">
+        <!-- ไอคอนถังขยะ -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+          <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
+        </svg>
+      </button>
+    <% end %>
+    </div>
   </div>
 
-  <div>
-    <strong class="block mb-1 text-gray-800">รายละเอียดงาน:</strong>
-    <p class="pl-2 text-gray-600"><%= task.description.presence || "—" %></p>
-  </div>
+  <!-- รายละเอียดทั้งหมด -->
+  <div class="bg-white p-6  md:p-8 rounded-b-2xl space-y-4 text-gray-500">
 
-  <div class="grid md:grid-cols-2 gap-4">
-    <div>
-      <strong class="text-gray-800">📁 หมวดหมู่งาน:</strong>
-      <p><%= task.category.presence || "—" %></p>
+    <!-- หมวดหมู่ -->
+    <div class="flex flex-col gap-2">
+      <label class="label font-semibold text-blue-950">📁 หมวดหมู่งาน</label>
+      <div class="input input-bordered bg-[#F5F4FB] border-none w-full text-gray-500">
+        <%= task.category.presence || "—" %>
+      </div>
     </div>
 
-    <div>
-      <strong class="text-gray-800">📅 วันที่ได้รับมอบหมาย:</strong>
-      <p><%= task.assigned_at&.strftime("%d %B %Y %H:%M") || "—" %></p>
+    <!-- รายละเอียด -->
+    <div class="flex flex-col gap-2">
+      <label class="label font-semibold text-blue-950">📝 รายละเอียดงาน</label>
+      <div class="textarea textarea-bordered bg-[#F5F4FB] text-gray-500 w-full min-h-[6rem] leading-relaxed rounded-lg p-3 border-none">
+        <%= task.description.presence || "—" %>
+      </div>
     </div>
 
-    <div>
-      <strong class="text-gray-800">⏰ เดตไลน์:</strong>
-      <p><%= task.deadline&.strftime("%d %B %Y %H:%M") || "—" %></p>
+    <!-- วันที่ได้รับมอบหมาย -->
+    <div class="flex flex-col gap-2">
+      <label class="label font-semibold text-blue-950">📅 วันที่ได้รับมอบหมาย</label>
+      <div class="input input-bordered bg-[#F5F4FB] border-none w-full text-gray-500">
+        <%= task.assigned_at&.strftime("%d %B %Y %H:%M") || "—" %>
+      </div>
+    </div>
+
+    <!-- วันกำหนดส่ง -->
+    <div class="flex flex-col gap-2">
+      <label class="label font-semibold text-blue-950">⏰ วันกำหนดส่ง (ถ้ามี)</label>
+      <div class="input input-bordered bg-[#F5F4FB] border-none w-full text-gray-500">
+        <%= task.deadline&.strftime("%d %B %Y %H:%M") || "—" %>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label class="label font-semibold text-blue-950">🚨 สถานะ</label>
+      <div class="input input-bordered w-full border-none 
+                  <%= task.done ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800" %>">
+        <%= task.done ? "✅ ทำเสร็จแล้ว" : "🕒 ยังไม่เสร็จ" %>
+      </div>
     </div>
   </div>
 </div>
