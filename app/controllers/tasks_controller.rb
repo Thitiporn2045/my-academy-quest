@@ -64,7 +64,7 @@ class TasksController < ApplicationController
     @task.destroy!
 
     respond_to do |format|
-      format.html { redirect_to tasks_path, status: :see_other, notice: "Task was successfully destroyed." }
+      format.html { redirect_to tasks_path, status: :see_other, notice: "ลบงานเรียบร้อยแล้ว" }
       format.json { head :no_content }
     end
   end
