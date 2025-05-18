@@ -10,3 +10,10 @@
 @plugin "./daisyui-theme.js"{
   /* custom theme here */
 }
+
+
+@layer base {
+  body {
+    @apply font-sans;
+  }
+}

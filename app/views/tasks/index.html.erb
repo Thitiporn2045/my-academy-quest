@@ -1,11 +1,11 @@
 <div class="w-full min-h-screen px-4 py-8">
   <!-- Profile Card -->
-  <div class="flex flex-col items-center mb-12 p-8">
+  <div class="flex flex-col items-center mb-12 p-10">
     <div class="size-[10rem] mb-4 overflow-hidden rounded-full ring-2 ring-indigo-100">
       <%= image_tag "Me.jpg", alt: "profile image", class: "w-full h-full object-cover" %>
     </div>
-    <h2 class="text-2xl font-semibold text-blue-950 drop-shadow-sm">Thitporn Thiamjan</h2>
-    <p class="text-md text-gray-600 italic">Go to Brag</p>
+    <h2 class="text-3xl font-semibold text-blue-950 drop-shadow-sm">Thitporn Thiamjan</h2>
+    <p class="text-xl text-gray-600 italic">Go to Brag</p>
   </div>
 
   <!-- Category Buttons -->
@@ -24,8 +24,8 @@
 
   <!-- Header: Tasks by Category + New Task -->
   <div class="flex justify-between items-center mb-6">
-    <h2 class="text-2xl font-bold text-blue-950">Tasks</h2>
-    <%= link_to 'New Task', new_task_path, class: "btn btn-primary shadow-lg hover:shadow-xl transition" %>
+    <h2 class="text-3xl font-bold text-blue-950">Tasks</h2>
+    <%= link_to 'New Task', new_task_path, class: "btn bg-blue-950 text-white shadow-lg hover:shadow-xl transition" %>
   </div>
 
   <!-- Grouped Tasks -->
